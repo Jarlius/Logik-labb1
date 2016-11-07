@@ -41,7 +41,7 @@ impint(Xi,Yi,P,R) :-
 impel(Xi,Yi,P,R) :-
 	get_seq(Xi,P,X),
 	get_seq(Yi,P,Y),
-	X = imp(Y,R).
+	Y = imp(X,R).
 
 % introduces doublenegation, Vi = value index, P = proof, R = result
 negnegint(Xi,P,R) :-
