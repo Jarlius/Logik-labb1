@@ -32,17 +32,17 @@ copy(Xi,P,R) :-
 	get_seq(Xi,P,X),
 	R = X.
 
-andint(Xi,Yi,P,R)
+andint(Xi,Yi,P,R).
 
-andel1(Xi,P,R)
+andel1(Xi,P,R).
 
-andel2(Xi,P,R)
+andel2(Xi,P,R).
 
-orint1(Xi,P,R)
+orint1(Xi,P,R).
 
-orint2(Xi,P,R)
+orint2(Xi,P,R).
 
-orel(Xi,Yi,Ui,Vi,Wi,P,R)
+orel(Xi,Yi,Ui,Vi,Wi,P,R).
 
 % implication, Bi = begin, Ei = end, A = assumption, C = consequence
 impint(Xi,Yi,P,R) :-
@@ -55,24 +55,24 @@ impel(Xi,Yi,P,R) :-
 	get_seq(Yi,P,Y),
 	Y = imp(X,R).
 
-negint(Xi,Yi,P,R)
+negint(Xi,Yi,P,R).
 
-negel(Xi,Yi,P,R)
+negel(Xi,Yi,P,R).
 
-contel(Xi,P,R)
+contel(Xi,P,R).
 
 % introduces doublenegation, Vi = value index, P = proof, R = result
 negnegint(Xi,P,R) :-
 	get_seq(Xi,P,X),
 	R = neg(neg(X)).
 
-negnegel(Xi,P,R)
+negnegel(Xi,P,R).
 
-mt(Xi,Yi,P,R)
+mt(Xi,Yi,P,R).
 
-pbc(Xi,Yi,P,R)
+pbc(Xi,Yi,P,R).
 
-lem(P,R)
+lem(P,R).
 
 % find sequence at index, I = index, H = head, T = tail S = sequence.
 get_seq(_,[],_) :- fail.
