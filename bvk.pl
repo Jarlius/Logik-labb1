@@ -5,7 +5,7 @@ verify(InputFileName) :- see(InputFileName),
 	valid_proof(Prems, Goal, Proof).
 
 % make sure a logical proof is syntactically correct
-valid_proof(_,_,[[_,_,assumption]|_]) :- fail,!.
+valid_proof(_,_,[[_,_,assumption]|_]) :- !,fail.
 valid_proof(Prems, Goal, Proof) :-
 	reverse(Proof,Foorp),
 	Foorp = [[_,Goal|_]|_],
