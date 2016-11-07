@@ -27,26 +27,26 @@ premise(P,S) :-
 assumption([_|T]) :-
 	T = [].
 
-% copy a previous row, I = index, P = proof, R = result, V = value
-copy(I,P,R) :-
-	get_seq(I,P,V),
-	R = V.
+% copy a previous row, X = index, P = proof, R = result, V = value
+copy(Xi,P,R) :-
+	get_seq(Xi,P,X),
+	R = X.
 
 % implication, Bi = begin, Ei = end, A = assumption, C = consequence
-impint(Bi,Ei,P,R) :-
-	get_box(Bi,Ei,P,A,C),
+impint(Xi,Yi,P,R) :-
+	get_box(Xi,Yi,P,A,C),
 	R = imp(A,C).
 
 % removes implication, Vi = value index, Ii = implication index, P = proof.
-impel(Vi,Ii,P,R) :-
-	get_seq(Vi,P,V),
-	get_seq(Ii,P,I),
-	I = imp(V,R).
+impel(Xi,Yi,P,R) :-
+	get_seq(Xi,P,X),
+	get_seq(Yi,P,Y),
+	X = imp(Y,R).
 
 % introduces doublenegation, Vi = value index, P = proof, R = result
-negnegint(Vi,P,R) :-
-	get_seq(Vi,P,V),
-	R = neg(neg(V)).
+negnegint(Xi,P,R) :-
+	get_seq(Xi,P,X),
+	R = neg(neg(X)).
 
 % find sequence at index, I = index, H = head, T = tail S = sequence.
 get_seq(_,[],_) :- fail.
