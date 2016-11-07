@@ -15,7 +15,7 @@ valid_proof(Prems, Goal, Proof) :-
 prove(_,_,[]) :- !.
 prove(P,[_|FT],C) :- C = [[_,S,K]|CT], K = premise,!,premise(P,S),prove(P,FT,CT).
 prove(P,[_|FT],C) :- C = [[_,_,K]|CT], K = assumption,!,assumption(C),prove(P,FT,CT).
-prove(P,F,[_|CT]) :- F = [[_,R,K]|FT], call(K,F,R),prove(P,FT,CT),!.
+prove(P,F,[_|CT]) :- F = [[_,R,K]|FT], call(K,FT,R),prove(P,FT,CT),!.
 % next row must be a box, B = box, X = xob, Y = rest of proof including box.
 prove(P,[B|F],[B|C]) :- reverse(B,X), append(X,F,Y), prove(P,Y,X), prove(P,F,C).
 
