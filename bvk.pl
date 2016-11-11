@@ -1,3 +1,10 @@
+:- module(rules,[
+		copy/3,andint/4,andel1/3,andel2/3,
+		orint1/3,orint2/3,orel/7,impint/4,impel/4,
+		negint/4,negel/4,contel/3,negnegint/3,negnegel/3,
+		mt/4,pbc/4,lem/2
+	]).
+	
 % verify that the file contains a valid proof
 verify(InputFileName) :- see(InputFileName),
 	read(Prems), read(Goal), read(Proof),
