@@ -15,22 +15,19 @@ valid_proof(Prems, Goal, Proof) :-
 
 % prove one row, P = premises, F = foorp, C = current box, K = connective
 prove(_,_,[]) :- !.
-prove(P,[_|FT],C) :- C = [[_,S,K]|CT], K = premise,!,premise(P,S),prove(P,FT,CT).
-prove(P,[_|FT],C) :- C = [[_,_,K]|CT], K = assumption,!,assumption(C),prove(P,FT,CT).
+% introducing rows from premises, only predicate that uses P
+prove(P,[_|FT],C) :- C = [[_,S,K]|CT], K = premise,!,
+	in_list(S,P), prove(P,FT,CT).
+% assumption, only possible at the start of a box
+prove(P,[_|FT],C) :- C = [[_,_,K]|CT], K = assumption,!,
+	CT = [], prove(P,FT,CT).
 prove(P,F,[_|CT]) :- F = [[_,R,K]|FT], 
 	catch((functor(K,N,A),B is A + 2,functor(L,N,B)),error(E,_),fail),
 	predicate_property(L,imported_from(rules)),
 	call(K,FT,R),prove(P,FT,CT),!.
-% next row must be a box, B = box, X = xob, Y = rest of proof including box.
-prove(P,[B|F],[B|C]) :- reverse(B,X), append(X,F,Y), prove(P,Y,X), prove(P,F,C).
-
-% introducing rows from premises, S = sequence, P = premises.
-premise(P,S) :-
-	in_list(S,P).
-
-% assumption, only possible at the start of a box, T = tail of proof.
-assumption([_|T]) :-
-	T = [].
+% next row must be a box, B = box, X = xob, Y = rest of proof including box
+prove(P,[B|F],[B|C]) :- reverse(B,X), append(X,F,Y), 
+	prove(P,Y,X), prove(P,F,C).
 
 % check if element is in list ( because member ruins testing.. )
 in_list(_,[]) :- fail.
