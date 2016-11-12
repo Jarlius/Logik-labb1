@@ -25,7 +25,7 @@ prove(P,[_|FT],C) :- C = [[_,_,K]|CT], K = assumption,!,
 % rules, each take its result and the tail of the proof as extra parameters
 prove(P,F,[_|CT]) :- F = [[_,R,K]|FT], 
 	catch((functor(K,N,A),B is A + 2,functor(L,N,B)),error(E,_),fail),
-	predicate_property(L,imported_from(rules)), %check that predicate is a rule
+	predicate_property(L,imported_from(rules)), % check that predicate is a rule
 	call(K,FT,R),prove(P,FT,CT),!.
 % next row must be a box, B = box, X = xob, Y = rest of proof including box
 prove(P,[B|F],[B|C]) :- reverse(B,X), append(X,F,Y), 
