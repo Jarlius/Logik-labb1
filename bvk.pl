@@ -6,8 +6,9 @@ verify(InputFileName) :- see(InputFileName),
 	seen,
 	valid_proof(Prems, Goal, Proof).
 
-% make sure a logical proof is syntactically correct
+% the main proof box cannot start with an assumption
 valid_proof(_,_,[[_,_,assumption]|_]) :- !,fail.
+% make sure a logical proof is syntactically correct
 valid_proof(Prems, Goal, Proof) :-
 	reverse(Proof,Foorp),
 	Foorp = [[_,Goal|_]|_],
@@ -21,6 +22,7 @@ prove(P,[_|FT],C) :- C = [[_,S,K]|CT], K = premise,!,
 % assumption, only possible at the start of a box
 prove(P,[_|FT],C) :- C = [[_,_,K]|CT], K = assumption,!,
 	CT = [], prove(P,FT,CT).
+% rules, each take its result and the tail of the proof as extra parameters
 prove(P,F,[_|CT]) :- F = [[_,R,K]|FT], 
 	catch((functor(K,N,A),B is A + 2,functor(L,N,B)),error(E,_),fail),
 	predicate_property(L,imported_from(rules)),
