@@ -5,87 +5,85 @@
 		mt/4,pbc/4,lem/2
 	]).
 
-% copy a previous row, X = index, P = proof, R = result, V = value
+%General variable naming pattern Xi = first index, X = value at x index, Yi = second index, 
+%Y= value at y index, P = proof, R = result, C= Result of box, A= Assumption.
+
+% copy a previous row.
 copy(Xi,P,R) :-
 	get_seq(Xi,P,X),
 	R = X.
-
+% and introduction from Xi and Yi
 andint(Xi,Yi,P,R) :- 
 	get_seq(Xi,P,X),
 	get_seq(Yi,P,Y),
 	R = and(X,Y).		
-		
+
+% and elimination at xi first element.
 andel1(Xi,P,R) :-
-	get_seq(Xi,P,X),
-	X = and(Z,_),	
-	R = Z.
+	get_seq(Xi,P,and(R,_)).
 
+% and elimination at xi second element. 
 andel2(Xi,P,R) :-
-	get_seq(Xi,P,X),
-	X = and(_,Z),	
-	R = Z.
+	get_seq(Xi,P,and(_,R)).
 
+% or introduction at xi first element.
 orint1(Xi,P,R) :-
-	get_seq(Xi,P,X),
-	X = or(Z,_),
-	R = Z.
+	get_seq(Xi,P,or(R,_)).
 
+% or introduction at xi second element.
 orint2(Xi,P,R) :-
-	get_seq(Xi,P,X),
-	X = or(_,Z),
-	R = Z.
+	get_seq(Xi,P,or(_,R)).
 
-% x or sats utanför box,y-u box 1,v-w box 2
+% or elimination from Xi. or: Xi  box1: Yi-Ui box2: Vi-Wi, A1= Assumption1, A2= Assumption2.
 orel(Xi,Yi,Ui,Vi,Wi,P,R) :-
 	get_seq(Xi,P,X),
 	get_box(Yi,Ui,P,A1,R),
 	get_box(Vi,Wi,P,A2,R), 
 	X = or(A1,A2).
 
-% implication, Bi = begin, Ei = end, A = assumption, C = consequence
+% implication introduction
 impint(Xi,Yi,P,R) :-
 	get_box(Xi,Yi,P,A,C),
 	R = imp(A,C).
 
-% removes implication, Vi = value index, Ii = implication index, P = proof.
+% removes implication.
 impel(Xi,Yi,P,R) :-
 	get_seq(Xi,P,X),
 	get_seq(Yi,P,Y),
 	Y = imp(X,R).
-
+% negation introduction.
 negint(Xi,Yi,P,R) :-
 	get_box(Xi,Yi,P,A,cont),
 	R = neg(A).
-
+% negation elimination.
 negel(Xi,Yi,P,R) :-
 	get_seq(Xi,P,X),
 	get_seq(Yi,P,neg(X)),	
 	R = cont.
-
+% contradiction elimination.
 contel(Xi,P,_R) :- 
 	get_seq(Xi,P,cont).
 
-% introduces doublenegation, Vi = value index, P = proof, R = result
+% introduces doublenegation.
 negnegint(Xi,P,R) :-
 	get_seq(Xi,P,X),
 	R = neg(neg(X)).
 
+% eliminates double negation.
 negnegel(Xi,P,R) :- 
-	get_seq(Xi,P,X),
-	neg(neg(R)) = X.
-
+	get_seq(Xi,P,neg(neg(R))).
+% MT, modus tolens, x->y if y is false x cannot be true. 
 mt(Xi,Yi,P,R):-
 	get_seq(Xi,P,imp(A,B)),
 	get_seq(Yi,P,neg(B)),
 	R= neg(A).
-
+%Proof by contradiction, if neg(x) leads to contradiction x must be true. 
 pbc(Xi,Yi,P,R) :-
 	get_box(Xi,Yi,P,A,cont),
 	A = neg(R).
-
+%Law of excluded middle, X or Neg(X) must be true.
 lem(_P,R) :-
 	R = or(X,neg(X)).
-
 lem(_P,R) :-
 	R = or(neg(X),X).
 	
