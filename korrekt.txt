@@ -1,0 +1,14 @@
+[neg(q),imp(or(p,q),q)].
+
+imp(p,or(p,q)).
+
+[
+	[1, neg(q),			premise],
+	[2, imp(or(p,q),q),		premise],
+	[3, neg(or(p,q)),		mt(2,1)],
+	[
+		[4, p,			assumption],
+		[5, or(p,q),		orint1(4)]
+	],
+	[6, imp(p,or(p,q)),		impint(4,5)]
+].
