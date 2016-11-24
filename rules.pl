@@ -10,17 +10,38 @@ copy(Xi,P,R) :-
 	get_seq(Xi,P,X),
 	R = X.
 
-andint(Xi,Yi,P,R).
+andint(Xi,Yi,P,R) :- 
+	get_seq(Xi,P,X),
+	get_seq(Yi,P,Y),
+	R = and(X,Y).		
+		
+andel1(Xi,P,R) :-
+	get_seq(Xi,P,X),
+	X = and(Z,_),	
+	R = Z.
+andel2(Xi,P,R) :-
+	get_seq(Xi,P,X),
+	X = and(_,Z),	
+	R = Z.
 
-andel1(Xi,P,R).
+orint1(Xi,P,R) :-
+	get_seq(Xi,P,X),
+	X = or(Z,_),
+	R = Z.
 
-andel2(Xi,P,R).
+orint2(Xi,P,R) :-
+	get_seq(Xi,P,X),
+	X = or(_,Z),
+	R = Z.
 
-orint1(Xi,P,R).
-
-orint2(Xi,P,R).
-
-orel(Xi,Yi,Ui,Vi,Wi,P,R).
+% x or sats utanför box,y-u box 1,v-w box 2
+orel(Xi,Yi,Ui,Vi,Wi,P,R) :-
+	get_seq(Xi,P,X),
+	get_box(Yi,Ui,P,A1,R),
+	get_box(Vi,Wi,P,A2,R), 
+	X = or(A1,A2).
+	
+	
 
 % implication, Bi = begin, Ei = end, A = assumption, C = consequence
 impint(Xi,Yi,P,R) :-
@@ -33,11 +54,14 @@ impel(Xi,Yi,P,R) :-
 	get_seq(Yi,P,Y),
 	Y = imp(X,R).
 
-negint(Xi,Yi,P,R).
+negint(Xi,Yi,P,R) :-
+	
 
 negel(Xi,Yi,P,R).
 
+
 contel(Xi,P,R).
+
 
 % introduces doublenegation, Vi = value index, P = proof, R = result
 negnegint(Xi,P,R) :-
