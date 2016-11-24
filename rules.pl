@@ -5,13 +5,15 @@
 		mt/4,pbc/4,lem/2
 	]).
 
-%General variable naming pattern Xi = first index, X = value at x index, Yi = second index, 
-%Y= value at y index, P = proof, R = result, C= Result of box, A= Assumption.
+% General variable naming pattern:
+% Xi = index x, X = value at x, Yi = index y, Y = value at y,
+% P = proof, R = result, C = Result of box, A = Assumption.
 
 % copy a previous row.
 copy(Xi,P,R) :-
 	get_seq(Xi,P,X),
 	R = X.
+	
 % and introduction from Xi and Yi
 andint(Xi,Yi,P,R) :- 
 	get_seq(Xi,P,X),
@@ -29,14 +31,14 @@ andel2(Xi,P,R) :-
 % or introduction at xi first element.
 orint1(Xi,P,R) :-
 	get_seq(Xi,P,X),
-	R=or(X,_).
+	R = or(X,_).
 
 % or introduction at xi second element.
 orint2(Xi,P,R) :-
 	get_seq(Xi,P,X),
-	R=or(X,_).
+	R = or(X,_).
 
-% or elimination from Xi. or: Xi  box1: Yi-Ui box2: Vi-Wi, A1= Assumption1, A2= Assumption2.
+% or elimination from Xi. or: Xi  box1: Yi-Ui box2: Vi-Wi, A1-2= Assumptions
 orel(Xi,Yi,Ui,Vi,Wi,P,R) :-
 	get_seq(Xi,P,X),
 	get_box(Yi,Ui,P,A1,R),
@@ -53,15 +55,18 @@ impel(Xi,Yi,P,R) :-
 	get_seq(Xi,P,X),
 	get_seq(Yi,P,Y),
 	Y = imp(X,R).
+
 % negation introduction.
 negint(Xi,Yi,P,R) :-
 	get_box(Xi,Yi,P,A,cont),
 	R = neg(A).
+
 % negation elimination.
 negel(Xi,Yi,P,R) :-
 	get_seq(Xi,P,X),
 	get_seq(Yi,P,neg(X)),	
 	R = cont.
+
 % contradiction elimination.
 contel(Xi,P,_R) :- 
 	get_seq(Xi,P,cont).
@@ -72,25 +77,25 @@ negnegint(Xi,P,R) :-
 	R = neg(neg(X)).
 
 % eliminates double negation.
-negnegel(Xi,P,R) :- Xi,P,R) :-
-	get_s
+negnegel(Xi,P,R) :-
 	get_seq(Xi,P,neg(neg(R))).
+	
 % MT, modus tolens, x->y if y is false x cannot be true. 
 mt(Xi,Yi,P,R):-
 	get_seq(Xi,P,imp(A,B)),
 	get_seq(Yi,P,neg(B)),
 	R= neg(A).
+	
 %Proof by contradiction, if neg(x) leads to contradiction x must be true. 
 pbc(Xi,Yi,P,R) :-
 	get_box(Xi,Yi,P,A,cont),
 	A = neg(R).
+	
 %Law of excluded middle, X or Neg(X) must be true.
 lem(_P,R) :-
 	R = or(X,neg(X)).
 lem(_P,R) :-
 	R = or(neg(X),X).
-	
-	
 
 % find sequence at index, I = index, H = head, T = tail S = sequence.
 get_seq(_,[],_) :- fail.
