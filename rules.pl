@@ -28,11 +28,13 @@ andel2(Xi,P,R) :-
 
 % or introduction at xi first element.
 orint1(Xi,P,R) :-
-	get_seq(Xi,P,or(R,_)).
+	get_seq(Xi,P,X),
+	R=or(X,_).
 
 % or introduction at xi second element.
 orint2(Xi,P,R) :-
-	get_seq(Xi,P,or(_,R)).
+	get_seq(Xi,P,X),
+	R=or(X,_).
 
 % or elimination from Xi. or: Xi  box1: Yi-Ui box2: Vi-Wi, A1= Assumption1, A2= Assumption2.
 orel(Xi,Yi,Ui,Vi,Wi,P,R) :-
@@ -70,7 +72,8 @@ negnegint(Xi,P,R) :-
 	R = neg(neg(X)).
 
 % eliminates double negation.
-negnegel(Xi,P,R) :- 
+negnegel(Xi,P,R) :- Xi,P,R) :-
+	get_s
 	get_seq(Xi,P,neg(neg(R))).
 % MT, modus tolens, x->y if y is false x cannot be true. 
 mt(Xi,Yi,P,R):-
