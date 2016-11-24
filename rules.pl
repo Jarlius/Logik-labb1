@@ -19,6 +19,7 @@ andel1(Xi,P,R) :-
 	get_seq(Xi,P,X),
 	X = and(Z,_),	
 	R = Z.
+
 andel2(Xi,P,R) :-
 	get_seq(Xi,P,X),
 	X = and(_,Z),	
@@ -40,8 +41,6 @@ orel(Xi,Yi,Ui,Vi,Wi,P,R) :-
 	get_box(Yi,Ui,P,A1,R),
 	get_box(Vi,Wi,P,A2,R), 
 	X = or(A1,A2).
-	
-	
 
 % implication, Bi = begin, Ei = end, A = assumption, C = consequence
 impint(Xi,Yi,P,R) :-
@@ -55,26 +54,40 @@ impel(Xi,Yi,P,R) :-
 	Y = imp(X,R).
 
 negint(Xi,Yi,P,R) :-
-	
+	get_box(Xi,Yi,P,A,cont),
+	R = neg(A).
 
-negel(Xi,Yi,P,R).
+negel(Xi,Yi,P,R) :-
+	get_seq(Xi,P,X),
+	get_seq(Yi,P,neg(X)),	
+	R = cont.
 
-
-contel(Xi,P,R).
-
+%?R can be anything?
+contel(Xi,P,R) :- 
+	get_seq(Xi,P,cont).
 
 % introduces doublenegation, Vi = value index, P = proof, R = result
 negnegint(Xi,P,R) :-
 	get_seq(Xi,P,X),
 	R = neg(neg(X)).
 
-negnegel(Xi,P,R).
+negnegel(Xi,P,R) :- 
+	get_seq(Xi,P,X),
+	neg(neg(R)) = X.
 
-mt(Xi,Yi,P,R).
+mt(Xi,Yi,P,R):-
+	get_seq(Xi,P,imp(A,B)),
+	get_seq(Yi,P,neg(B)),
+	R= neg(A).
 
-pbc(Xi,Yi,P,R).
+pbc(Xi,Yi,P,R) :-
+	get_box(Xi,Yi,P,A,cont),
+	A = neg(R).
 
-lem(P,R).
+%?kanske behöver göra en bakvänd version oxå men osäker?
+lem(P,R) :-
+	R = or(X,neg(X)).
+	
 
 % find sequence at index, I = index, H = head, T = tail S = sequence.
 get_seq(_,[],_) :- fail.
