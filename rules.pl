@@ -62,8 +62,7 @@ negel(Xi,Yi,P,R) :-
 	get_seq(Yi,P,neg(X)),	
 	R = cont.
 
-%?R can be anything?
-contel(Xi,P,R) :- 
+contel(Xi,P,_R) :- 
 	get_seq(Xi,P,cont).
 
 % introduces doublenegation, Vi = value index, P = proof, R = result
@@ -84,9 +83,12 @@ pbc(Xi,Yi,P,R) :-
 	get_box(Xi,Yi,P,A,cont),
 	A = neg(R).
 
-%?kanske behöver göra en bakvänd version oxå men osäker?
-lem(P,R) :-
+lem(_P,R) :-
 	R = or(X,neg(X)).
+
+lem(_P,R) :-
+	R = or(neg(X),X).
+	
 	
 
 % find sequence at index, I = index, H = head, T = tail S = sequence.
