@@ -1,16 +1,19 @@
-[neg(q),imp(or(p,q),q)].
+[imp(or(p,q),q),neg(q)].
 
 neg(p).
 
 [
-	[1, neg(q),			premise],
-	[2, imp(or(p,q),q),		premise],
-	[3, neg(or(p,q)),		mt(2,1)],
+	[1, imp(or(p,q),q),		premise],
+	[2, neg(q),			premise],
+	[3, neg(or(p,q)),		mt(1,2)],
 	[
 		[4, p,			assumption],
 		[5, or(p,q),		orint1(4)],
 		[6, cont,		negel(5,3)]
 	],
-	[7, neg(q),			copy(1)],
-	[8, neg(p),			negint(4,6)]
+	[7, neg(q),			copy(2)],
+	[
+		[8, neg(p),		assumption]
+	],
+	[9, neg(p),			negint(4,6)]
 ].
