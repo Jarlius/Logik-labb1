@@ -12,9 +12,5 @@ neg(p).
 		[6, cont,		negel(5,3)]
 	],
 	[7, neg(q),			copy(1)],
-	[
-		[8, or(p,neg(p)),	lem],
-		[9, or(neg(p),p),	lem]
-	],
-	[10, neg(p),			negint(4,6)]
+	[8, neg(p),			negint(4,6)]
 ].

@@ -5,9 +5,12 @@ p.
 [
 	[1, neg(p),		assumption],
 	[
-		[2, neg(p),	get_seq(1)],
-		[3, p,		copy(3)],
-		[4, cont,	negel(3,1)]
+		[2, or(p,neg(p),lem]
 	],
-	[5, p,			PBC(2,4)]
+	[
+		[3, neg(p),	get_seq(1)],
+		[4, p,		copy(3)],
+		[5, cont,	negel(3,1)]
+	],
+	[6, p,			PBC(2,4)]
 ].

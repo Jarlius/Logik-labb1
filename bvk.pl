@@ -28,7 +28,7 @@ prove(P,F,[_|CT]) :- F = [[_,R,K]|FT],
 	predicate_property(L,imported_from(rules)), % check that predicate is a rule
 	call(K,FT,R),prove(P,FT,CT),!.
 % next row must be a box, B = box, X = xob, Y = rest of proof including box
-prove(P,[B|F],[B|C]) :- reverse(B,X), append(X,F,Y), 
+prove(P,[B|F],[B|C]) :- B = [[_,_,assumption]|_], reverse(B,X), append(X,F,Y),
 	prove(P,Y,X), prove(P,F,C).
 
 % check if element is in list ( because member ruins testing.. )

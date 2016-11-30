@@ -104,6 +104,6 @@ get_seq(I,[_|T],S) :- get_seq(I,T,S).
 
 % find correct box, Bi = begin, Ei = end, P = proof, A = assumption, C = result
 get_box(_,_,[],_,_) :- fail.
-get_box(Bi,Ei,[B|_],A,C) :- B = [[Bi,A,assumption]|_],reverse(B,[[Ei,C,_]|_]),!.
+get_box(Bi,Ei,[B|_],A,C) :- B = [[Bi,A,_]|_],reverse(B,[[Ei,C,_]|_]),!.
 get_box(Bi,Ei,[_|T],A,C) :- get_box(Bi,Ei,T,A,C).
 
